@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MomDownloader</title>
+</head>
+
+<body>
+    <h1>MomDownloader</h1>
+    <div>
+        <label>第一步：输入要下载的歌曲名称，点击搜索按钮查询！</label>
+        <div>
+            <input type="text" placeholder="下载歌曲的名字" size="100px" id="music"/>
+            <button id="search">搜索</button>
+        </div>
+    </div>
+    <div>
+        <label>第二部：找到对应歌曲后面的下载按钮，点击下载</label>
+        <table>
+            <tr>
+                <td>名称</td>
+                <td>歌手</td>
+                <td>语言</td>
+                <td>类型</td>
+                <td>是否可用作汽车</td>
+                <td>下载</td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        const { ipcRenderer } = require('electron')
+
+        document.getElementById('search').addEventListener('click',()=>{
+            //得到搜索的歌曲名
+            let musicName = document.getElementById("music").value.trim();
+            let searchResult = ipcRenderer.sendSync('searchMusic',musicName);
+            console.log(searchResult);
+        });
+    </script>
+</body>
+
+</html>

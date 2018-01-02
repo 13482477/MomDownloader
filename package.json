@@ -1,0 +1,14 @@
+{
+  "name": "MomDownloader",
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "~1.7.8"
+  },
+  "dependencies": {
+    "request": "^2.83.0"
+  }
+}
