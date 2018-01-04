@@ -4,6 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <title>MomDownloader</title>
+    <style type="text/css">
+        table.gridtable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+
+        table.gridtable th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
@@ -11,32 +37,33 @@
     <div>
         <label>第一步：输入要下载的歌曲名称，点击搜索按钮查询！</label>
         <div>
-            <input type="text" placeholder="下载歌曲的名字" size="100px" id="music"/>
+            <input type="text" placeholder="下载歌曲的名字" size="100px" id="music" />
             <button id="search">搜索</button>
         </div>
     </div>
     <div>
-        <label>第二部：找到对应歌曲后面的下载按钮，点击下载</label>
-        <table>
-            <tr>
-                <td>名称</td>
-                <td>歌手</td>
-                <td>语言</td>
-                <td>类型</td>
-                <td>是否可用作汽车</td>
-                <td>下载</td>
-            </tr>
-        </table>
+        <label>第二步：找到对应歌曲后面的下载按钮，点击下载!</label>
+        <div id="renderTable"></div>
     </div>
     <script type="text/javascript">
         const { ipcRenderer } = require('electron')
-
-        document.getElementById('search').addEventListener('click',()=>{
+        document.getElementById('search').addEventListener('click', () => {
             //得到搜索的歌曲名
             let musicName = document.getElementById("music").value.trim();
-            let searchResult = ipcRenderer.sendSync('searchMusic',musicName);
-            console.log(searchResult);
+            let searchResult = ipcRenderer.sendSync('searchMusic', musicName);
+            document.getElementById('renderTable').innerHTML = searchResult;
         });
+
+        function downloadMusic(link) {
+            let downloadLink = ipcRenderer.sendSync('downloadMusic', link);
+            let flag = confirm('是否要开始下载？(请确保已打开迅雷)');
+            if (flag){
+                window.open(downloadLink);
+                //window.close()
+            }else{
+                alert('下载已取消')
+            }
+        }
     </script>
 </body>
 

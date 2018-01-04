@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "packager":"electron-packager . MomDownloader --win --out presenterTool --arch=x64 --version 1.0 --overwrite --ignore=node_modules"
   },
   "devDependencies": {
-    "electron": "~1.7.8"
+    "electron": "~1.7.8",
+    "electron-packager": "^10.1.1"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "request": "^2.83.0"
   }
 }
