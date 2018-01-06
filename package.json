@@ -4,12 +4,18 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "bag-mac":"electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds"
+    "packager": "electron-packager . --all --out ./OutApp --version 1.0 --overwrite",
+    "package-mac": "electron-packager . --overwrite --asar=true --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=out",
+    "package-linux": "electron-packager . --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "create-installer-mac": "electron-installer-dmg ./release-builds/Electron\\ tutorial\\ app-darwin-x64/Electron\\ tutorial\\ app.app electron-tutorial-app --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns",
+    "create-installer-win": "node installers/windows/createinstaller.js"
   },
   "dependencies": {
-    "electron": "~1.7.8",
-    "electron-packager": "^10.1.1",
     "cheerio": "^1.0.0-rc.2",
+    "electron": "~1.7.8",
+    "electron-dl": "^1.10.0",
+    "electron-packager": "^10.1.1",
     "request": "^2.83.0"
   }
 }

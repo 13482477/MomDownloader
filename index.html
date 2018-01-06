@@ -7,7 +7,7 @@
     <style type="text/css">
         table.gridtable {
             font-family: verdana, arial, sans-serif;
-            font-size: 11px;
+            font-size: 14px;
             color: #333333;
             border-width: 1px;
             border-color: #666666;
@@ -35,18 +35,21 @@
 <body>
     <h1>MomDownloader</h1>
     <div>
-        <label>第一步：输入要下载的歌曲名称，点击搜索按钮查询！</label>
+        <label style="color:red;">第一步：输入要下载的歌曲名称，点击搜索按钮查询！</label>
         <div>
-            <input type="text" placeholder="下载歌曲的名字" size="100px" id="music" />
-            <button id="search">搜索</button>
+            <input type="text" placeholder="下载歌曲的名字" id="music" style="height:25px;width:400px;margin:10px;" />
+            <button id="search" style="height:25px;">搜索</button>
         </div>
     </div>
     <div>
-        <label>第二步：找到对应歌曲后面的下载按钮，点击下载!</label>
-        <div id="renderTable"></div>
+        <label style="color:red;">第二步：找到对应歌曲后面的下载按钮，点击下载!</label>
+        <div id="renderTable" style="margin-top:10px;margin-left:30px;"></div>
     </div>
     <script type="text/javascript">
+
         const { ipcRenderer } = require('electron')
+
+
         document.getElementById('search').addEventListener('click', () => {
             //得到搜索的歌曲名
             let musicName = document.getElementById("music").value.trim();
@@ -54,15 +57,9 @@
             document.getElementById('renderTable').innerHTML = searchResult;
         });
 
-        function downloadMusic(link) {
-            let downloadLink = ipcRenderer.sendSync('downloadMusic', link);
-            let flag = confirm('是否要开始下载？(请确保已打开迅雷)');
-            if (flag){
-                window.open(downloadLink);
-                //window.close()
-            }else{
-                alert('下载已取消')
-            }
+        function downloadMusic(link, musicName) {
+            let downloadLink = ipcRenderer.sendSync('downloadMusic', [link, musicName]);
+            console.log(downloadLink)
         }
     </script>
 </body>

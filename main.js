@@ -4,6 +4,8 @@ const url = require('url')
 
 const request = require('request')
 const cheerio = require('cheerio')
+const { download } = require('electron-dl')
+
 
 
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
@@ -72,7 +74,7 @@ ipcMain.on('searchMusic', async (event, arg) => {
                 result = result + "<tr>"
                 result = result + "<td>" + element.childNodes[0].data + "</td>";
                 result = result + "<td>" + $('td a')[i + 1].childNodes[0].data + "</td>";
-                result = result + `<td><button onclick="downloadMusic('${element.attribs.href}')">下载</button></td>`
+                result = result + `<td><button onclick="downloadMusic('${element.attribs.href}','${element.childNodes[0].data}')">下载</button></td>`
                 result = result + "</tr>"
             }
         });
@@ -81,11 +83,19 @@ ipcMain.on('searchMusic', async (event, arg) => {
 });
 
 ipcMain.on('downloadMusic', async (event, arg) => {
-    let requestURL = encodeURI(`http://www.chedvd.com${arg}`);
+    let requestURL = encodeURI(`http://www.chedvd.com${arg[0]}`);
+    let musicName = `${arg[1]}.mp4`;
     request(requestURL, (error, response, body) => {
         const $ = cheerio.load(body);
-        let href = $('div .button a')[0].attribs.href;
-        event.returnValue = `http://www.chedvd.com${href}`;
+        let keyword = 'var id  = ';
+        let keywordIndex = body.indexOf(keyword);
+        let endIndex = body.substring(keywordIndex).indexOf(';') + keywordIndex;
+        let musicNo = body.substring(keywordIndex + keyword.length, endIndex);
+        download(BrowserWindow.getFocusedWindow(), `http://www.chedvd.com/video/${musicNo}`, { filename: musicName })
+            .then(dl => {
+                dialog.showMessageBox({ title: '温馨提示', message: `${musicName}下载完成` })
+            })
+            .catch(console.error);
     });
-
+    event.returnValue = requestURL
 })
