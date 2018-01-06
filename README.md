@@ -26,11 +26,13 @@ your-app/
 ```
     
 ### 3.编码
+```
 使用request获取网页源代码，使用cheerio快速找到网页DOM
 [request](https://github.com/request/request)
 官方简介：Request is designed to be the simplest way possible to make http calls. It supports HTTPS and follows redirects by default
 [cheerio](https://github.com/cheeriojs/cheerio)
 官方简介：Fast, flexible & lean implementation of core jQuery designed specifically for the server
+```
 
 ### 4.调试启动
 ``` bash
