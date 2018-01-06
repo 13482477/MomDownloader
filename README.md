@@ -8,18 +8,22 @@
 
 ### 1.创建项目
 目录结果大致为：
+```
 your-app/
 ├── package.json
 ├── main.js
 └── index.html
 参考：https://electronjs.org/docs/tutorial/quick-start
+```
 
 ### 2.获取视频资源
+```
 我选用的是 https://electronjs.org/docs/tutorial/quick-start 视频资源网站
 常用接口：
     搜索歌曲：http://www.chedvd.com/so.html?k=歌曲名
     歌曲详情页：http://www.chedvd.com/song/xxx.html
     视频下载地址：http://www.chedvd.com/video/xx
+```
     
 ### 3.编码
 使用request获取网页源代码，使用cheerio快速找到网页DOM
